@@ -54,7 +54,7 @@
 		    "build.glibc": "/pkg/glibc"
 		},
 		"action": {
-		    "exec": ["/bin/bash", "-c", "sed -i 's/XORIGIN/$ORIGIN/' /pkg/glibc/bin/* && rm -rf /pkg/glibc/src"]
+		    "exec": ["/bin/bash", "-c", "sed -i 's/XORIGIN/$ORIGIN/' /pkg/glibc/bin/*"]
 		},
 		"outputs": {
 		    "bin-linux-amd64": "/pkg/glibc"

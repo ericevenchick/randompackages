@@ -1,21 +1,19 @@
 {
     "imports": {
 	"base": "catalog:early.polydawn.io/monolith/debian-gcc-plus:v1.2017.01.04:linux-amd64",
-	"src_bison": "catalog:timeless.polydawn.io/bison:v3.2.2:src",
-	"m4": "catalog:timeless.polydawn.io/m4:candidate:bin-linux-amd64",
+	"src_busybox": "catalog:timeless.polydawn.io/busybox:v1.29.3:src",
     },
     "steps": {
 	"configure": {
 	    "operation": {
 		"inputs": {
 		    "base": "/",
-		    "src_bison": "/pkg/bison/src",
-		    "m4": "/pkg/m4"
+		    "src_busybox": "/pkg/busybox/src"
 		},
 		"action": {
 		    "exec": [
 			"/bin/bash", "-c",
-			"cp -pR /pkg/bison/src/bison* /task/bison && mkdir /task/bison/build && cd /task/bison/build && PATH=$PATH:/pkg/m4/bin LDFLAGS=\"-Wl,-rpath=XORIGIN/../lib\" ../configure --prefix=/pkg/bison",
+			"cp -pr /pkg/busybox/src/busybox* /task/busybox && cd /task/busybox && make defconfig",
 		    ]
 		},
 		"outputs": {
@@ -28,17 +26,16 @@
 		"inputs": {
 		    "base": "/",
 		    "configure.build_dir": "/task"
-		    "src_bison": "/pkg/bison/src",
 		},
 		"action": {
 		    "exec": [
 			"/bin/bash", "-c",
-			"cd /task/bison/build && make && make install",
+			"cd /task/busybox && LDFLAGS=\"-Wl,-rpath=XORIGIN/../lib\" make && make install",
 		    ]
 		},
 		"outputs": {
 		    "build_dir": "/task"
-		    "bison": "/pkg/bison"
+		    "busybox": "/task/busybox/_install"
 		}
 	    }
 	},
@@ -46,13 +43,13 @@
 	    "operation": {
 		"inputs": {
 		    "base": "/",
-		    "build.bison": "/pkg/bison"
+		    "build.busybox": "/pkg/busybox"
 		},
 		"action": {
-		    "exec": ["/bin/bash", "-c", "sed -i 's/XORIGIN/$ORIGIN/' /pkg/bison/bin/*"]
+		    "exec": ["/bin/bash", "-c", "sed -i 's/XORIGIN/$ORIGIN/' /pkg/busybox/bin/*"]
 		},
 		"outputs": {
-		    "bin-linux-amd64": "/pkg/bison"
+		    "bin-linux-amd64": "/pkg/busybox"
 		}
 	    }
 	}

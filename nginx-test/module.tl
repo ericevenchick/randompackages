@@ -3,7 +3,7 @@
 	"nginx": "catalog:timeless.polydawn.io/nginx:candidate:bin-linux-amd64"
     },
     "steps": {
-	"configure": {
+	"run": {
 	    "operation": {
 		"inputs": {
 		    "nginx": "/pkg/nginx",
